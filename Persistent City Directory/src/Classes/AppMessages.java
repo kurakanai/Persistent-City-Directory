@@ -1,6 +1,9 @@
 // The messages in this package are designed strictly with printf in mind!
 package Classes;
 public final class AppMessages {
+    public static final String appLoadSuccessful = "City directory restored successfully.\n";
+    public static final String appLoadEmptyDir = "City directory not found.\n" +
+            "Creating an empty city directory.";
     public static final String helpOut = "addCity: Adds a new city to the directory.\n" +
             "removeCity: Removes an existing city from the directory.\n" +
             "population: Returns the number of inhabitants of a city.\n" +
