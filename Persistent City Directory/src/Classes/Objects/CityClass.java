@@ -1,7 +1,7 @@
 package Classes.Objects;
 
-import Interfaces.CityObject;
-import Interfaces.CountryObject;
+import Interfaces.Objects.CityObject;
+import Interfaces.Objects.CountryObject;
 
 public class CityClass implements CityObject {
     private String name;

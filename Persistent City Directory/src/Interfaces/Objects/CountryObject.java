@@ -1,4 +1,4 @@
-package Interfaces;
+package Interfaces.Objects;
 
 public interface CountryObject {
     /// Method for getting a country's name.

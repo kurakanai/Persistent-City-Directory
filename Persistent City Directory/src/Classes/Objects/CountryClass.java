@@ -1,6 +1,6 @@
 package Classes.Objects;
 
-import Interfaces.CountryObject;
+import Interfaces.Objects.CountryObject;
 
 public class CountryClass implements CountryObject {
     private String name;

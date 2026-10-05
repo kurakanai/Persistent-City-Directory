@@ -1,4 +1,4 @@
-package Interfaces;
+package Interfaces.Objects;
 
 public interface CityObject {
     /// Method for getting a city's name.
