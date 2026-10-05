@@ -4,9 +4,9 @@ import Classes.CommandsClass;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 private boolean shouldQuit = false;
-void main() throws IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    String inputString = reader.readLine();
+void main(){
+    Scanner scanner = new Scanner(System.in);
+    String inputString = scanner.nextLine();
     while(inputString != null && !shouldQuit){
         switch (inputString.toLowerCase()){
             case "help":
@@ -18,7 +18,7 @@ void main() throws IOException {
                 break;
         }
         if(!shouldQuit){
-            inputString = reader.readLine();
+            inputString = scanner.nextLine();
         }
     }
 }
