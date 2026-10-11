@@ -37,14 +37,6 @@ public enum Command {
         return comm;
     }
 }
-public static Command fromString(String text) {
-    Command comm = Command.UNKNOWN;
-    for(Command command : Command.values()){
-        if(command.commandName.equals(text))
-            comm = command;
-    }
-    return comm;
-}
 
 /// Logic for the help command. Prints the help string.
 private static void helpCmd() {
