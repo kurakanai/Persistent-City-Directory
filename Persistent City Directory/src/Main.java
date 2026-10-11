@@ -28,10 +28,9 @@ public enum Command {
     }
 
     public static Command fromString(String text) {
-        text = text.toLowerCase();
         Command comm = UNKNOWN;
         for(Command command : values()){
-            if(command.commandName.equals(text))
+            if(command.commandName.equalsIgnoreCase(text))
                 comm = command;
         }
         return comm;
