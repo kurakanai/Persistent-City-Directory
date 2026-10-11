@@ -1,24 +1,72 @@
 import Classes.AppMessages;
-import Classes.CommandsClass;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-private boolean shouldQuit = false;
-void main(){
-    Scanner scanner = new Scanner(System.in);
-    String inputString = scanner.nextLine();
-    while(inputString != null && !shouldQuit){
-        switch (inputString.toLowerCase()){
-            case "help":
-                CommandsClass.commandHelp();
-                break;
-            case "quit":
-                CommandsClass.commandQuit();
-                shouldQuit = true;
-                break;
+public enum Command {
+    ADD_CITY("addCity", "Adds a new city to the directory."),
+    REMOVE_CITY("removeCity", "Removes an existing city from the directory."),
+    POPULATION("population", "Returns the number of inhabitants of a city."),
+    LIST_CITIES("listCities", "Lists all cities currently stored in the directory."),
+    HELP("help", "Displays the list of available commands."),
+    QUIT("quit", "Terminates the application."),
+    UNKNOWN("", "");
+
+    private final String commandName;
+    private final String description;
+
+    Command(String commandName, String description) {
+        this.commandName = commandName;
+        this.description = description;
+    }
+
+    public String getCommandName() {
+        return commandName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public static Command fromString(String text) {
+        text = text.toLowerCase();
+        Command comm = UNKNOWN;
+        for(Command command : values()){
+            if(command.commandName.equals(text))
+                comm = command;
         }
-        if(!shouldQuit){
-            inputString = scanner.nextLine();
+        return comm;
+    }
+}
+public static Command fromString(String text) {
+    Command comm = Command.UNKNOWN;
+    for(Command command : Command.values()){
+        if(command.commandName.equals(text))
+            comm = command;
+    }
+    return comm;
+}
+
+/// Logic for the help command. Prints the help string.
+private static void helpCmd() {
+    for (Command cmd : Command.values()) {
+        if (cmd != Command.UNKNOWN) {
+            System.out.println(cmd.getCommandName() + " - " + cmd.getDescription());
         }
     }
+}
+
+/// Prints the quit message. The quit variable is NOT set in this method.
+public static void quitCmd(){
+    System.out.printf(AppMessages.goodbyeMessage);
+}
+void main(){
+    Scanner sc = new Scanner(System.in);
+    Command cmd;
+    do {
+        cmd = Command.fromString(sc.nextLine());
+        switch (cmd) {
+            case HELP -> helpCmd();
+            case QUIT -> quitCmd();
+        }
+    } while (!cmd.equals(Command.QUIT));
 }
