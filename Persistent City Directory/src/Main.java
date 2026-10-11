@@ -50,12 +50,21 @@ private static void helpCmd() {
 public static void quitCmd(){
     System.out.printf(AppMessages.goodbyeMessage);
 }
+
+public static void addCityCmd(Scanner scanner){
+    String cityName = scanner.nextLine();
+    String countryName = scanner.nextLine();
+    int Population = scanner.nextInt();
+
+    scanner.nextLine();
+}
 void main(){
     Scanner sc = new Scanner(System.in);
     Command cmd;
     do {
         cmd = Command.fromString(sc.nextLine());
         switch (cmd) {
+            case ADD_CITY -> addCityCmd(sc);
             case HELP -> helpCmd();
             case QUIT -> quitCmd();
         }
