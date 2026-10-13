@@ -11,7 +11,7 @@ public class CityComparatorClass implements Comparator<City> {
             return x.getCountry().compareTo(y.getCountry());
         }
         if(x.getPopulation() != y.getPopulation()){
-            return x.getPopulation() - y.getPopulation();
+            return y.getPopulation() - x.getPopulation();
         }
         if(x.getName().compareTo(y.getName()) != 0){
             return x.getName().compareTo(y.getName());

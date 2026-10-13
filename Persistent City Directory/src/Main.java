@@ -24,7 +24,7 @@ public static final String populationStandardOut = "Population: %d\n";
 public static final String listCitiesStandardOut = "%s - %d - %s\n";
 public static final String goodbyeMessage = "City directory saved.\n" +
         "Goodbye.\n";
-private CityDBClass cityDB;
+private static CityDBClass cityDB;
 
 
 /// Logic for the help command. Prints the help string.
@@ -45,19 +45,17 @@ public static void addCityCmd(Scanner scanner){
     String cityName = scanner.nextLine();
     String countryName = scanner.nextLine();
     int population = scanner.nextInt();
-    /// Sample country object
-    CountryObject countryObject = new CountryClass(null);
-    CityClass newCity = new CityClass(cityName, countryObject, population);
-    Iterator iterator = countryObject.getcitiesDBCountry().iterator();
+    City newCity = new CityRecord(cityName, countryName, population);
+    Iterator iterator = cityDB.citySortedList.iterator();
     boolean isDupe = false;
     while (iterator.hasNext()){
-        CityObject city = (CityObject) iterator.next();
-        if(city.getName().equalsIgnoreCase(cityName)){
+        City city = (City) iterator.next();
+        if(city.getName().equalsIgnoreCase(cityName) && city.getCountry().equalsIgnoreCase(countryName)){
             isDupe = true;
         };
     }
     if(!isDupe){
-        countryObject.getcitiesDBCountry().add(newCity);
+        cityDB.citySortedList.add(newCity);
         System.out.printf(addCitySuccess);
     }
     else {
@@ -67,19 +65,40 @@ public static void addCityCmd(Scanner scanner){
 
 public static void removeCityCmd(Scanner scanner){
     String cityName = scanner.nextLine();
+    String countryName = scanner.nextLine();
+    Iterator iterator = cityDB.citySortedList.iterator();
+    boolean removed = false;
+    while (iterator.hasNext()){
+        City city = (City) iterator.next();
+        if(city.getName().equalsIgnoreCase(cityName) && city.getCountry().equalsIgnoreCase(countryName)){
+            cityDB.citySortedList.remove(city);
+            removed = true;
+        }
+    }
+    if(removed){
+        System.out.printf(removeCitySuccess);
+    }
+    else {
+        System.out.printf(cityFailureNotFound);
+    }
 }
 
 private void populationCmd(Scanner scanner) {
     String cityName = scanner.nextLine();
     String countryName = scanner.nextLine();
-    /// Sample city added to not rely on unfinished classes for now.
-    CityClass targetCity = new CityClass(null, null, 0);
-    if(targetCity != null){
-        System.out.printf(populationStandardOut, targetCity.getPop());
+    Iterator iterator = cityDB.citySortedList.iterator();
+    boolean found = false;
+    while (iterator.hasNext()){
+        City city = (City) iterator.next();
+        if(city.getName().equalsIgnoreCase(cityName) && city.getCountry().equalsIgnoreCase(countryName)){
+            System.out.printf(populationStandardOut, city.getPopulation());
+            found = true;
+        }
     }
-    else {
+    if(!found){
         System.out.printf(cityFailureNotFound);
     }
+
 }
 private void listCitiesCmd() {
     Iterator iterator = cityDB.citySortedList.iterator();
@@ -91,7 +110,7 @@ private void listCitiesCmd() {
         }
     }
     else {
-        System.out.println(cityFailureNoCities);
+        System.out.printf(cityFailureNoCities);
     }
 }
 
@@ -109,7 +128,6 @@ void main(){
             case HELP -> helpCmd();
             case QUIT -> quitCmd();
         }
-        sc.nextLine();
     } while (!cmd.equals(Command.QUIT));
 }
 
