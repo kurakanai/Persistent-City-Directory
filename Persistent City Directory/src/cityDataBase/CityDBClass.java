@@ -6,7 +6,9 @@ import cityDataBase.exceptions.*;
 
 public class CityDBClass implements CityDB{
 
+    /// Hardcoded filename where the database should be.
     private final static String FILE_NAME = "cities.dat";
+    /// SortedList containing all stored cities.
     public SortedList<City> citySortedList;
 
     public CityDBClass(){
@@ -23,19 +25,19 @@ public class CityDBClass implements CityDB{
 
     @Override
     public int getCityPopulation(String cityName, String countryName)
-            throws CityDontExistException{
+            throws CityNotFoundException{
         City city = getCity(cityName, countryName);
         if(city == null){
-            throw new CityDontExistException();
+            throw new CityNotFoundException();
         }
         return city.getPopulation();
     }
 
     @Override
-    public void removeCity(String cityName, String countryName) throws CityDontExistException{
+    public void removeCity(String cityName, String countryName) throws CityNotFoundException{
         City removedCity = getCity(cityName, countryName);
         if(removedCity == null)
-            throw new CityDontExistException();
+            throw new CityNotFoundException();
         citySortedList.remove(removedCity);
     }
 
@@ -48,7 +50,8 @@ public class CityDBClass implements CityDB{
         citySortedList.add(newCity);
     }
 
-    private City getCity(String cityName, String countryName){
+    @Override
+    public City getCity(String cityName, String countryName){
         Iterator<City> iterator = citySortedList.iterator();
         City found = null;
         while(iterator.hasNext() && found == null){
@@ -62,6 +65,7 @@ public class CityDBClass implements CityDB{
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void load() throws NoSavedCitiesException{
         File file = new File(FILE_NAME);
         if (!file.exists())
@@ -76,13 +80,14 @@ public class CityDBClass implements CityDB{
         }
     }
 
+    @Override
     public void save(){
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
             out.writeObject(citySortedList);
             out.flush();
             out.close();
-        } catch (IOException e) {
+        } catch (IOException _) {
         }
     }
 }
