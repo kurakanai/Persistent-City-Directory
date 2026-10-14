@@ -1,0 +1,88 @@
+package cityDataBase;
+
+import java.io.*;
+import dataStructures.*;
+import cityDataBase.exceptions.*;
+
+public class CityDBClass implements CityDB{
+
+    private final static String FILE_NAME = "cities.dat";
+    public SortedList<City> citySortedList;
+
+    public CityDBClass(){
+        citySortedList = new SortedLinkedList<>(new CityComparatorClass());
+    }
+
+    @Override
+    public Iterator<City> cityIterator() throws NoSavedCitiesException{
+        if(citySortedList.isEmpty()){
+            throw new NoSavedCitiesException();
+        }
+        return citySortedList.iterator();
+    }
+
+    @Override
+    public int getCityPopulation(String cityName, String countryName)
+            throws CityDontExistException{
+        City city = getCity(cityName, countryName);
+        if(city == null){
+            throw new CityDontExistException();
+        }
+        return city.getPopulation();
+    }
+
+    @Override
+    public void removeCity(String cityName, String countryName) throws CityDontExistException{
+        City removedCity = getCity(cityName, countryName);
+        if(removedCity == null)
+            throw new CityDontExistException();
+        citySortedList.remove(removedCity);
+    }
+
+    @Override
+    public void addCity(String cityName, String countryName, int population)
+            throws CityAlreadyExistsException{
+        if(getCity(cityName, countryName) != null)
+            throw new CityAlreadyExistsException();
+        City newCity = new CityRecord(cityName, countryName, population);
+        citySortedList.add(newCity);
+    }
+
+    private City getCity(String cityName, String countryName){
+        Iterator<City> iterator = citySortedList.iterator();
+        City found = null;
+        while(iterator.hasNext() && found == null){
+            City city = iterator.next();
+            if(city.getName().equalsIgnoreCase(cityName) &&
+                    city.getCountry().equalsIgnoreCase(countryName)){
+                found = city;
+            }
+        }
+        return found;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void load() throws NoSavedCitiesException{
+        File file = new File(FILE_NAME);
+        if (!file.exists())
+            throw new NoSavedCitiesException();
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+            citySortedList = (SortedList<City>) in.readObject();
+            in.close();
+        } catch (IOException | ClassNotFoundException e) {
+            citySortedList = new SortedLinkedList<>(new CityComparatorClass());
+            throw new NoSavedCitiesException();
+        }
+    }
+
+    public void save(){
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
+            out.writeObject(citySortedList);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+        }
+    }
+}

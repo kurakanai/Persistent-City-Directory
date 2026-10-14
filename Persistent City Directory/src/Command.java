@@ -1,5 +1,3 @@
-package Enums;
-
 public enum Command {
     ADD_CITY("addCity", "Adds a new city to the directory."),
     REMOVE_CITY("removeCity", "Removes an existing city from the directory."),

@@ -3,7 +3,7 @@ package dataStructures;
 import java.io.Serializable;
 
 /**
- *  Comparator interface
+ * Comparator interface
  * @author AED  Team
  * @version 1.0
  * @param <E> Generic Element
