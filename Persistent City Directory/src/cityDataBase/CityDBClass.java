@@ -107,7 +107,7 @@ public class CityDBClass implements CityDB{
             out.writeObject(citySortedList);
             out.flush();
             out.close();
-        } catch (IOException _) {
+        } catch (IOException ignored) {
         }
     }
 }
