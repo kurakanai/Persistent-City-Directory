@@ -9,7 +9,9 @@ import java.io.ObjectOutputStream;
 /**
  * Sorted linked list Implementation
  * @author AED  Team
- * @version 1.0
+ * @author Dinis Pó - d.po@campus.fct.unl.pt - 70975
+ * @author Afonso Martins - afma.martins@campus.fct.unl.pt - 74365
+ * @version 2.0
  * @param <E> Generic Element
  * 
  */
@@ -117,6 +119,7 @@ public class SortedLinkedList<E> extends LinkedList<E> implements SortedList<E> 
     /**
      * Inserts the element at the last position in the list.
      * @param element - Element to be inserted
+     *
      */
     void addLast( E element ) {
         addLastNode(new SinglyListNode<>(element));
@@ -124,9 +127,9 @@ public class SortedLinkedList<E> extends LinkedList<E> implements SortedList<E> 
 
     /**
      * Removes and returns the first occurrence of the element equals to the given element in the list.
-     * @return element removed from the list or null if !belongs
+     *
      */
-    public E remove(E element) {
+    public void remove(E element) {
         LinkedNode<E> prev = null;
         LinkedNode<E> node = head;
         while (node != null && comparator.compare(node.getElement(), element) < 0) {
@@ -143,20 +146,28 @@ public class SortedLinkedList<E> extends LinkedList<E> implements SortedList<E> 
             else
                 removeMiddleNode(new pairNode<>(prev, node));
         }
-        return removed;
     }
 
+    /**
+     * Method to add an element to the list
+     * @param element - Element to add to the list.
+     *
+     */
     void addElem(E element){
         addLast(element);
     }
 
-    //this method is on the slides
+    /**
+     * This method checks if the sorting was done properly. Think of it as a sanity checker.
+     * @return whether the sorting is done correctly.
+     *
+     */
     private boolean invariant() {
         if (isEmpty())
             return true;
         Iterator<E> it = this.iterator();
         boolean ok = true;
-        E elemP= it.next();
+        E elemP = it.next();
         while (ok && it.hasNext()) {
             E elemN= it.next();
             ok = comparator.compare(elemP, elemN) <= 0;
@@ -165,9 +176,23 @@ public class SortedLinkedList<E> extends LinkedList<E> implements SortedList<E> 
         return ok;
     }
 
+    /**
+     * Serializes this object onto an ObjectOutputStream.
+     * @param oos ObjectOutputStream to write the object on.
+     * @throws IOException if the operation fails (IO failure).
+     *
+     */
     void writeData(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject(); // write the normal attributes
     }
+
+    /**
+     * Deserializes the list and loads it onto memory, replacing this object with the loaded one.
+     * @param ois ObjectInputStream to read from.
+     * @throws IOException If an I/O operation fails.
+     * @throws ClassNotFoundException If the object could not be found in the input stream.
+     *
+     */
     void readData(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject(); // read the normal attributes
     }

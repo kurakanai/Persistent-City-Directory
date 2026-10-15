@@ -8,7 +8,6 @@ package dataStructures;
  */
 
 interface InfoNode<E> extends Node<E>{
-
     /**
      * Update the element
      * @param elem

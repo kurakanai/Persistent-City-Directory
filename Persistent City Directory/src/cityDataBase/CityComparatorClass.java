@@ -1,13 +1,23 @@
+/**
+ * City Comparator Class
+ * @author Dinis Pó - d.po@campus.fct.unl.pt - 70975
+ * @author Afonso Martins - afma.martins@campus.fct.unl.pt - 74365
+ * @version 1.0
+ *
+ */
+
 package cityDataBase;
 
 import dataStructures.*;
 
 public class CityComparatorClass implements Comparator<City> {
-    /// Comparator that compares by country name, population and then city name (in that order).
-    ///
-    /// @param x City to compare from.
-    /// @param y City to compare against.
-    /// @return int representing the comparison (negative for inferior, positive for greater and 0 for equal).
+    /**
+     * Comparator that compares by country name, population and then city name (in that order).
+     * @param x City to compare from.
+     * @param y City to compare against.
+     * @return int representing the comparison (negative for inferior, positive for greater and 0 for equal).
+     *
+     */
     @Override
     public int compare(City x, City y){
         if(x.getCountry().compareToIgnoreCase(y.getCountry()) != 0){

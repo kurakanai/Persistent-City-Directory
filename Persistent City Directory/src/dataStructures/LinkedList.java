@@ -6,7 +6,9 @@ import java.io.*;
  * Linked List
  * Includes description of general methods to be implemented by linked lists.
  * @author AED  Team
- * @version 1.0
+ * @author Dinis Pó - d.po@campus.fct.unl.pt - 70975
+ * @author Afonso Martins - afma.martins@campus.fct.unl.pt - 74365
+ * @version 2.0
  * @param <E> Generic Element
  *
  */
@@ -99,9 +101,9 @@ abstract class LinkedList<E> implements Serializable {
         currentSize++;
     }
     /**
-     * Removes the first node in the list.
+     * Removes the first node in the list and returns it.
      * @pre: !isEmpty()
-     * @return
+     * @return The removed first node.
      */
     E removeFirstNode(){
         E firstElem = head.getElement();
@@ -113,8 +115,8 @@ abstract class LinkedList<E> implements Serializable {
     }
 
     /**
-     * remove the last node (pair.node()) of the list
-     * @return
+     * Removes the last node (pair.node()) of the list and returns it.
+     * @return The removed last node.
      */
     E removeLastNode(pairNode<E> pair){
         E lastElem = pair.node().getElement();
@@ -124,9 +126,9 @@ abstract class LinkedList<E> implements Serializable {
         return lastElem;
     }
     /**
-     * remove the node pair.node()
-     @pre: pair.previous()!=null && pair.node()!=null
-     * @param pair
+     * Removes a node that's not on the start or end of the list.
+     * @pre: pair.previous()!=null && pair.node()!=null
+     * @param pair pairNode to remove.
      */
     void removeMiddleNode(pairNode<E> pair) {
         pair.prev().setNext(pair.node().getNext());
@@ -134,11 +136,12 @@ abstract class LinkedList<E> implements Serializable {
     }
 
     /**
-     *
-     * @param element
+     * Method to get the pairNode of the previous and current node from an element.
+     * @param element - Element from which you want to get the pairNode.
      * @return pair with the previous node and the element node, Or null if no element
+     *
      */
-    pairNode<E>  nodeOf(E element){
+    pairNode<E> nodeOf(E element){
         LinkedNode<E> prev = null;
         LinkedNode<E> node = head;
         while (node != null) {
@@ -150,14 +153,29 @@ abstract class LinkedList<E> implements Serializable {
         return null;
     }
 
+    /**
+     * Method to get the first node (head) from this list.
+     * @return First node from list.
+     *
+     */
     LinkedNode<E> getFirstNode(){
         return head;
     }
 
+    /**
+     * Method to get the last node (tail) from this list.
+     * @return Last node from list.
+     *
+     */
     LinkedNode<E> getLastNode(){
         return tail;
     }
-     // MANUAL SERIALIZATION
+
+    /**
+     * Method to manually serialize this list.
+     * @param oos - Object output stream to write to.
+     *
+     */
     @Serial
     private void writeObject(ObjectOutputStream oos) throws IOException {
         writeData(oos);
@@ -169,7 +187,11 @@ abstract class LinkedList<E> implements Serializable {
         }
     }
 
-    // MANUAL DESERIALIZATION
+    /**
+     * Method to manually deserialize this list.
+     * @param ois - Object input stream to read from.
+     *
+     */
     @Serial
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         int iSize = ois.readInt(); // read the size
@@ -180,11 +202,17 @@ abstract class LinkedList<E> implements Serializable {
         }
     }
 
-    void writeData(ObjectOutputStream out) throws IOException{
-    }
+    /**
+     * Method to manually serialize a specific object.
+     * @param out - Object output stream to write to.
+     *
+     */
+    abstract void writeData(ObjectOutputStream out) throws IOException;
 
-    void readData(ObjectInputStream in) throws IOException, ClassNotFoundException {
-    }
-
+    /**
+     * Method to add an element to the list.
+     * @param element - Element to add to the list.
+     *
+     */
     abstract void addElem(E element);
 }

@@ -1,3 +1,11 @@
+/**
+ * City Database Class
+ * @author Dinis Pó - d.po@campus.fct.unl.pt - 70975
+ * @author Afonso Martins - afma.martins@campus.fct.unl.pt - 74365
+ * @version 1.0
+ *
+ */
+
 package cityDataBase;
 
 import java.io.*;
@@ -6,9 +14,15 @@ import cityDataBase.exceptions.*;
 
 public class CityDBClass implements CityDB{
 
-    /// Hardcoded filename where the database should be.
+    /**
+     * Hardcoded filename where the database should be.
+     *
+     */
     private final static String FILE_NAME = "cities.dat";
-    /// SortedList containing all stored cities.
+    /**
+     * SortedList containing all stored cities.
+     *
+     */
     public SortedList<City> citySortedList;
 
     public CityDBClass(){
@@ -50,8 +64,14 @@ public class CityDBClass implements CityDB{
         citySortedList.add(newCity);
     }
 
-    @Override
-    public City getCity(String cityName, String countryName){
+    /**
+     * Method for getting a city object from its name and country name strings.
+     * @param cityName Name of the city.
+     * @param countryName Name of the country where the city is located.
+     * @return Target city as an object.
+     *
+     */
+    private City getCity(String cityName, String countryName){
         Iterator<City> iterator = citySortedList.iterator();
         City found = null;
         while(iterator.hasNext() && found == null){

@@ -71,9 +71,9 @@ import java.io.Serializable;
 
         /**
          * Removes and returns the first occurrence of the element equals to the given element in the list.
+         *
          * @param element to be removed
-         * @return element removed from the list or null if !belongs
          */
-        E remove(E element);
+        void remove( E element );
 
 }

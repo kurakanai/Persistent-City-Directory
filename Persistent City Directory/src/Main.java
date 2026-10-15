@@ -1,9 +1,15 @@
+/**
+ * Persistent City Directory - AED 1st project.
+ * @author Dinis Pó - d.po@campus.fct.unl.pt - 70975
+ * @author Afonso Martins - afma.martins@campus.fct.unl.pt - 74365
+ * @version 1.0
+ *
+ */
+
 import cityDataBase.City;
 import cityDataBase.CityDB;
 import cityDataBase.CityDBClass;
-import cityDataBase.exceptions.CityAlreadyExistsException;
-import cityDataBase.exceptions.CityNotFoundException;
-import cityDataBase.exceptions.NoSavedCitiesException;
+import cityDataBase.exceptions.*;
 import dataStructures.Iterator;
 
 public static final String LOAD_SUCCESS = "City directory restored successfully.\n";
@@ -16,20 +22,28 @@ public static final String REMOVE_SUCCESS = "City successfully removed.\n";
 public static final String CITY_NOT_FOUND = "City not found.\n";
 public static final String CITY_ALREADY_EXISTS = "City already exists.\n";
 public static final String NO_CITIES = "No cities available.\n";
-/// %d is the population number.
+/**
+ * %d is the population number.
+ *
+ */
 public static final String POPULATION_OUTPUT = "Population: %d\n";
-/// Should be in the following format: country - population - city.
+/**
+ * Should be in the following format: country - population - city.
+ *
+ */
 public static final String LIST_OUTPUT = "%s - %d - %s\n";
 public static final String BYE_MESSAGE = """
         City directory saved.
         Goodbye.
         """;
 
-/// This method keeps the input going, parsing the commands and executing their respective
-/// method until a quit command is issued.
-///
-/// @param sc Main's scanner.
-/// @param cityDB The loaded city database.
+/**
+ * This method keeps the input going, parsing the commands and executing their respective
+ * method until a quit command is issued.
+ * @param sc Main's scanner.
+ * @param cityDB The loaded city database.
+ *
+ */
 private static void cmdLoop(Scanner sc, CityDB cityDB) {
     Command cmd;
     do {
@@ -45,9 +59,11 @@ private static void cmdLoop(Scanner sc, CityDB cityDB) {
     } while (!cmd.equals(Command.QUIT));
 }
 
-/// Logic for the listCities command. Prints all cities sorted by country name, population and name (in that order).
-///
-/// @param cityDB The target database to pull the cities from.
+/**
+ * Logic for the listCities command. Prints all cities sorted by country name, population and name (in that order).
+ * @param cityDB The target database to pull the cities from.
+ *
+ */
 private static void listCitiesCmd(CityDB cityDB) {
     try {
         Iterator<City> iterator = cityDB.cityIterator();
@@ -61,10 +77,12 @@ private static void listCitiesCmd(CityDB cityDB) {
     }
 }
 
-/// Logic for the population command. Reads the target city's name and country and returns its population number.
-///
-/// @param sc Scanner to read name and country fields.
-/// @param cityDB Database where the cities are stored.
+/**
+ * Logic for the population command. Reads the target city's name and country and returns its population number.
+ * @param sc Scanner to read name and country fields.
+ * @param cityDB Database where the cities are stored.
+ *
+ */
 private static void populationCmd(Scanner sc, CityDB cityDB) {
     try {
         String cityName = sc.nextLine();
@@ -75,10 +93,12 @@ private static void populationCmd(Scanner sc, CityDB cityDB) {
         System.out.printf(CITY_NOT_FOUND);
     }
 }
-/// Logic for the removeCity command. Reads the target city's name and country and attempts to remove it.
-///
-/// @param sc Scanner to read name and country fields.
-/// @param cityDB Database where the target city is located.
+/**
+ * Logic for the removeCity command. Reads the target city's name and country and attempts to remove it.
+ * @param sc Scanner to read name and country fields.
+ * @param cityDB Database where the target city is located.
+ *
+ */
 private static void removeCityCmd(Scanner sc, CityDB cityDB) {
     try {
         String cityName = sc.nextLine();
@@ -90,11 +110,13 @@ private static void removeCityCmd(Scanner sc, CityDB cityDB) {
     }
 }
 
-/// Logic for the addCity command. Reads the desired city name, country where the city
-/// is located and the city's population.
-///
-/// @param sc Scanner to read name, country and population fields.
-/// @param cityDB Database where the city will be added.
+/**
+ * Logic for the addCity command. Reads the desired city name, country where the city
+ * is located and the city's population.
+ * @param sc Scanner to read name, country and population fields.
+ * @param cityDB Database where the city will be added.
+ *
+ */
 private static void addCityCmd(Scanner sc, CityDB cityDB) {
     try {
         String cityName = sc.nextLine();
@@ -108,7 +130,10 @@ private static void addCityCmd(Scanner sc, CityDB cityDB) {
     }
 }
 
-/// Logic for the help command. Simply prints all available commands and what they do.
+/**
+ * Logic for the help command. Simply prints all available commands and what they do.
+ *
+ */
 private static void helpCmd() {
     for (Command cmd : Command.values()) {
         if (cmd != Command.UNKNOWN) {
@@ -117,17 +142,21 @@ private static void helpCmd() {
     }
 }
 
-/// Logic for the quit command. This also saves the database onto a file and prints a quit message.
-///
-/// @param cityDB Database that will be saved.
+/**
+ * Logic for the quit command. This also saves the database onto a file and prints a quit message.
+ * @param cityDB Database that will be saved.
+ *
+ */
 private static void quitCmd(CityDB cityDB) {
     cityDB.save();
     System.out.printf(BYE_MESSAGE);
 }
 
-/// Logic responsible for loading the city database file onto memory. Creates an empty one on failure.
-///
-/// @param cityDB The empty database's object.
+/**
+ * Logic responsible for loading the city database file onto memory. Creates an empty one on failure.
+ * @param cityDB The empty database's object.
+ *
+ */
 private static void cmdLoad(CityDB cityDB) {
     try {
         cityDB.load();
